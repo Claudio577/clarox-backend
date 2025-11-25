@@ -42,8 +42,11 @@ async def chat_endpoint(payload: ChatMessage):
 
     else:
         ai_text = generate_ai_response(user_msg, intent, sentiment)
-save_log(payload.user_id, intent, sentiment, user_msg)
 
+    # 4. Registrar log (AGORA está no lugar certo!)
+    save_log(payload.user_id, intent, sentiment, user_msg)
+
+    # 5. Retorno padronizado
     return ChatResponse(
         intent=intent,
         sentiment=sentiment,
