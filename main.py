@@ -11,9 +11,7 @@ from services.protocolo import abrir_protocolo
 
 app = FastAPI(title="ClaroX API")
 
-class ChatMessage(BaseModel):
-    user_id: str
-    message: str
+from schemas.messages import ChatMessage
 
 @app.post("/chat")
 async def chat_endpoint(payload: ChatMessage):
