@@ -5,6 +5,7 @@ from schemas.chat_response import ChatResponse
 from schemas.fatura import FaturaResponse
 from schemas.internet import InternetStatusResponse
 from schemas.protocolo import ProtocoloResponse
+from services.logging_service import save_log
 
 from models.intent_classifier import classify_intent
 from models.sentiment_analyzer import analyze_sentiment
@@ -41,6 +42,7 @@ async def chat_endpoint(payload: ChatMessage):
 
     else:
         ai_text = generate_ai_response(user_msg, intent, sentiment)
+save_log(payload.user_id, intent, sentiment, user_msg)
 
     return ChatResponse(
         intent=intent,
