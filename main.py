@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from schemas.messages import ChatMessage
 
 from models.intent_classifier import classify_intent
 from models.sentiment_analyzer import analyze_sentiment
@@ -11,8 +11,6 @@ from services.protocolo import abrir_protocolo
 
 app = FastAPI(title="ClaroX API")
 
-from schemas.messages import ChatMessage
-
 @app.post("/chat")
 async def chat_endpoint(payload: ChatMessage):
     user_msg = payload.message
@@ -20,10 +18,10 @@ async def chat_endpoint(payload: ChatMessage):
     # 1. Detectar intenção
     intent = classify_intent(user_msg)
 
-    # 2. Sentimento
+    # 2. Analisar sentimento
     sentiment = analyze_sentiment(user_msg)
 
-    # 3. Executar ação
+    # 3. Executar ação dependendo da intenção
     if intent == "segunda_via":
         data = gerar_segunda_via(payload.user_id)
         ai_text = f"Aqui está sua segunda via da fatura: {data['link']}"
